@@ -1,0 +1,62 @@
+# Backend python virtual environment (venv)
+backend/.venv/
+backend/venv/
+
+# Backend secrets values
+backend/.env
+
+# Django config
+backend/*.sqlite3
+backend/*.pyc
+backend/__pycache__/
+backend/*.pyo
+backend/*.pyd
+backend/.Python
+backend/core/settings.pyc
+backend/core/settings_local.py
+
+# Django Logs
+backend/logs/
+backend/*.log
+backend/debug.log
+backend/out.log
+backend/error.log
+
+# Django Media & static files
+backend/media/
+backend/staticfiles/
+
+# Bot python virtual environment (venv)
+bot/.venv/
+bot/venv/
+
+# Bot secrets values
+bot/.env
+
+# Bot config
+bot/*.pyc
+bot/__pycache__/
+bot/*.pyo
+bot/*.pyd
+bot/.Python
+
+# Bot Logs
+bot/logs/
+bot/*.log
+bot/debug.log
+bot/out.log
+bot/error.log
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+db_data/
+docker-compose.override.yml
+
+# OS specific
+.DS_Store
+Thumbs.db
