@@ -60,3 +60,10 @@ docker-compose.override.yml
 # OS specific
 .DS_Store
 Thumbs.db
+
+# Python cache fayllari
+__pycache__/
+*.pyc
+*.pyo
+# Django migrations cache
+*/migrations/__pycache__/
