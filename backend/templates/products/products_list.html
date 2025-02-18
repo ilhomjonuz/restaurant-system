@@ -1,285 +1,183 @@
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Durger King</title>
+    <title>Food Order</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        }
-
         body {
-            background: #fff;
-            max-width: 480px;
-            margin: 0 auto;
+            margin: 0;
             padding: 16px;
+            font-family: -apple-system, system-ui, sans-serif;
+            background: #f5f5f5;
         }
-
-        .header {
+        .product-list {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 0;
-            margin-bottom: 20px;
+            flex-direction: column;
+            gap: 12px;
+            padding-bottom: 60px;
         }
-
-        .header h1 {
-            font-size: 24px;
-            font-weight: 600;
-        }
-
-        .menu-item {
+        .product-item {
             display: flex;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .item-image {
-            width: 50px;
-            height: 50px;
-            margin-right: 15px;
-            position: relative;
-        }
-
-        .item-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #ff9800;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .new-badge {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #4CAF50;
-            color: white;
-            padding: 2px 6px;
+            background: white;
+            padding: 12px;
             border-radius: 12px;
-            font-size: 10px;
-            font-weight: bold;
         }
-
-        .item-info {
+        .product-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            margin-right: 12px;
+        }
+        .product-info {
             flex: 1;
         }
-
-        .item-name {
-            font-size: 16px;
+        .product-name {
+            font-weight: 500;
             margin-bottom: 4px;
         }
-
-        .item-price {
+        .product-price {
             color: #666;
-            font-size: 14px;
         }
-
-        .star {
-            color: #ffd700;
-            margin-right: 4px;
-        }
-
-        .item-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn {
+        .add-button {
+            background: #ff9500;
+            color: white;
             border: none;
             padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: 600;
+            border-radius: 8px;
+            font-weight: 500;
             cursor: pointer;
-            font-size: 14px;
         }
-
-        .btn-add {
-            background: #ff9800;
-            color: white;
-        }
-
-        .btn-buy {
-            background: #4CAF50;
-            color: white;
-        }
-
         .quantity-controls {
             display: flex;
             align-items: center;
             gap: 8px;
         }
-
-        .btn-quantity {
+        .quantity-button {
+            background: #ff9500;
+            color: white;
+            border: none;
             width: 32px;
             height: 32px;
-            border: none;
-            border-radius: 6px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn-decrease {
-            background: #ff5252;
-            color: white;
-        }
-
-        .btn-increase {
-            background: #ff9800;
-            color: white;
-        }
-
-        .view-order {
-            position: fixed;
-            bottom: 20px;
-            left: 16px;
-            right: 16px;
-            max-width: 448px;
-            margin: 0 auto;
-            background: #4CAF50;
-            color: white;
-            padding: 16px;
             border-radius: 8px;
-            text-align: center;
-            font-weight: 600;
+            font-size: 18px;
             cursor: pointer;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
     </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="header">
-        <h1>Durger King</h1>
-        <button id="closeBtn" style="background: none; border: none; font-size: 24px; cursor: pointer;">×</button>
-    </div>
-
-    <div id="menuItems"></div>
-
-    <button class="view-order" id="viewOrder">VIEW ORDER</button>
+    <div class="product-list" id="productList"></div>
 
     <script>
-        const menuItems = [
-            { id: 1, name: 'Cake', price: 1, badge: 'NEW', star: 1 },
-            { id: 2, name: 'Burger', price: 4.99, quantity: 1 },
-            { id: 3, name: 'Fries', price: 1.49, quantity: 1 },
-            { id: 4, name: 'Hotdog', price: 3.49 },
-            { id: 5, name: 'Taco', price: 3.99, quantity: 2 },
-            { id: 6, name: 'Pizza', price: 7.99 },
-            { id: 7, name: 'Donut', price: 1.49 },
-            { id: 8, name: 'Popcorn', price: 1.99 },
-            { id: 9, name: 'Coke', price: 1.49 }
+        // Telegram WebApp initialization
+        let tg = window.Telegram.WebApp;
+        tg.expand(); // Expand to full height
+
+        // Products data
+        const products = [
+            { id: 1, name: 'Burger', price: 4.99, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-3fPSrm7RBwaXJGonkxtypaZDjj6xVv.png' },
+            { id: 2, name: 'Fries', price: 1.49, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-3fPSrm7RBwaXJGonkxtypaZDjj6xVv.png' },
+            { id: 3, name: 'Hotdog', price: 3.49, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-3fPSrm7RBwaXJGonkxtypaZDjj6xVv.png' },
+            // Add more products as needed
         ];
 
-        const cart = new Map();
+        // Cart state
+        let cart = {};
 
-        function renderMenuItems() {
-            const container = document.getElementById('menuItems');
-            container.innerHTML = menuItems.map(item => `
-                <div class="menu-item">
-                    <div class="item-image">
-                        <img src="{% static 'imgs/img.png' %}" alt="${item.name}">
-                        ${item.badge ? `<span class="new-badge">${item.badge}</span>` : ''}
-                        ${item.quantity ? `<span class="badge">${item.quantity}</span>` : ''}
+        // Update MainButton
+        function updateMainButton() {
+            const itemCount = Object.values(cart).reduce((sum, item) => sum + item.quantity, 0);
+            const total = Object.values(cart).reduce((sum, item) => sum + (item.quantity * item.price), 0);
+
+            if (itemCount > 0) {
+                tg.MainButton.setText(`VIEW ORDER • ${itemCount} ITEMS • $${total.toFixed(2)}`);
+                tg.MainButton.show();
+            } else {
+                tg.MainButton.hide();
+            }
+        }
+
+        // Add to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!cart[productId]) {
+                cart[productId] = {
+                    name: product.name,
+                    price: product.price,
+                    quantity: 1
+                };
+            } else {
+                cart[productId].quantity++;
+            }
+            updateMainButton();
+            updateProductUI(productId);
+        }
+
+        // Update quantity
+        function updateQuantity(productId, delta) {
+            if (!cart[productId]) return;
+
+            cart[productId].quantity += delta;
+            if (cart[productId].quantity <= 0) {
+                delete cart[productId];
+            }
+
+            updateMainButton();
+            updateProductUI(productId);
+        }
+
+        // Update product UI
+        function updateProductUI(productId) {
+            const productElement = document.getElementById(`product-${productId}`);
+            const controlsContainer = productElement.querySelector('.controls');
+
+            if (cart[productId] && cart[productId].quantity > 0) {
+                controlsContainer.innerHTML = `
+                    <div class="quantity-controls">
+                        <button class="quantity-button" onclick="updateQuantity(${productId}, -1)">-</button>
+                        <span>${cart[productId].quantity}</span>
+                        <button class="quantity-button" onclick="updateQuantity(${productId}, 1)">+</button>
                     </div>
-                    <div class="item-info">
-                        <div class="item-name">
-                            ${item.name} ${item.star ? `<span class="star">⭐</span>${item.star}` : ''}
-                        </div>
-                        <div class="item-price">$${item.price.toFixed(2)}</div>
+                `;
+            } else {
+                controlsContainer.innerHTML = `
+                    <button class="add-button" onclick="addToCart(${productId})">ADD</button>
+                `;
+            }
+        }
+
+        // Render products
+        function renderProducts() {
+            const productList = document.getElementById('productList');
+            productList.innerHTML = products.map(product => `
+                <div class="product-item" id="product-${product.id}">
+                    <img src="${product.image}" class="product-image" alt="${product.name}">
+                    <div class="product-info">
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-price">$${product.price.toFixed(2)}</div>
                     </div>
-                    <div class="item-actions">
-                        ${cart.has(item.id) ? `
-                            <div class="quantity-controls">
-                                <button class="btn-quantity btn-decrease" onclick="decreaseQuantity(${item.id})">-</button>
-                                <span>${cart.get(item.id)}</span>
-                                <button class="btn-quantity btn-increase" onclick="increaseQuantity(${item.id})">+</button>
-                            </div>
-                        ` : `
-                            <button class="btn ${item.badge === 'NEW' ? 'btn-buy' : 'btn-add'}"
-                                    onclick="addToCart(${item.id})">
-                                ${item.badge === 'NEW' ? 'BUY' : 'ADD'}
-                            </button>
-                        `}
+                    <div class="controls">
+                        <button class="add-button" onclick="addToCart(${product.id})">ADD</button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function addToCart(itemId) {
-            cart.set(itemId, 1);
-            renderMenuItems();
-            updateViewOrder();
-        }
-
-        function increaseQuantity(itemId) {
-            const currentQty = cart.get(itemId) || 0;
-            cart.set(itemId, currentQty + 1);
-            renderMenuItems();
-            updateViewOrder();
-        }
-
-        function decreaseQuantity(itemId) {
-            const currentQty = cart.get(itemId);
-            if (currentQty > 1) {
-                cart.set(itemId, currentQty - 1);
-            } else {
-                cart.delete(itemId);
-            }
-            renderMenuItems();
-            updateViewOrder();
-        }
-
-        function updateViewOrder() {
-            const button = document.getElementById('viewOrder');
-            const itemCount = Array.from(cart.values()).reduce((sum, qty) => sum + qty, 0);
-            const total = Array.from(cart.entries()).reduce((sum, [itemId, qty]) => {
-                const item = menuItems.find(i => i.id === itemId);
-                return sum + (item.price * qty);
-            }, 0);
-
-            if (itemCount > 0) {
-                button.textContent = `VIEW ORDER • ${itemCount} ITEMS • $${total.toFixed(2)}`;
-            } else {
-                button.textContent = 'VIEW ORDER';
-            }
-        }
-
-        // Close button functionality
-        document.getElementById('closeBtn').addEventListener('click', () => {
-            // In a real Telegram Web App, this would close the web app
-            alert('Close button clicked');
+        // Handle main button click
+        tg.MainButton.onClick(() => {
+            // Send cart data back to the bot
+            tg.sendData(JSON.stringify({
+                cart: cart,
+                total: Object.values(cart).reduce((sum, item) => sum + (item.quantity * item.price), 0)
+            }));
         });
 
         // Initial render
-        renderMenuItems();
-        updateViewOrder();
+        renderProducts();
+        updateMainButton();
     </script>
 </body>
 </html>
