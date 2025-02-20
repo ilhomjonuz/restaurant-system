@@ -7,7 +7,7 @@ async def user_menu():
     markup.add(
         KeyboardButton(
             text="Online menu",
-            web_app=WebAppInfo(url="https://430d-90-156-198-10.ngrok-free.app/products/products-list/")
+            web_app=WebAppInfo(url="https://2104-90-156-198-10.ngrok-free.app/products/products-list/")
         )
     )
     return markup
