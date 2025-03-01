@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Food Order</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, system-ui, sans-serif;
+            background: #fff;
+            padding-bottom: 80px;
+            padding-top: 70px;
+        }
+
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #fff;
+            z-index: 1000;
+        }
+
+        .header {
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            padding: 8px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: #ff9500;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-container {
+            padding: 16px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            margin-right: 12px;
+            object-fit: cover;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .cart-item-price {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quantity-button {
+            background: #ff9500;
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-summary {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .summary-row.total {
+            font-weight: 600;
+            font-size: 18px;
+            border-top: 1px solid #eee;
+            padding-top: 12px;
+            margin-top: 12px;
+        }
+
+        .checkout-button {
+            background: #ff9500;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .empty-cart {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .empty-cart-icon {
+            font-size: 64px;
+            color: #ddd;
+            margin-bottom: 16px;
+        }
+
+        .empty-cart-text {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .browse-button {
+            background: #ff9500;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #666;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .nav-item.active {
+            color: #ff9500;
+        }
+
+        .material-symbols-outlined {
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div class="fixed-header">
+        <header class="header">
+            <div class="header-title">My Cart</div>
+            <div class="header-icons">
+                <button class="icon-button">
+                    <span class="material-symbols-outlined">delete</span>
+                </button>
+            </div>
+        </header>
+    </div>
+
+    <div class="cart-container" id="cartContainer">
+        <!-- Cart items will be rendered here -->
+    </div>
+
+    <nav class="bottom-nav">
+        <a href="{% url 'products-list' %}" class="nav-item active">
+            <span class="material-symbols-outlined">restaurant_menu</span>
+            Menu
+        </a>
+        <a href="{% url 'cart' %}" class="nav-item">
+            <span class="material-symbols-outlined">shopping_cart</span>
+            Cart
+        </a>
+        <a href="{% url 'my-profile' %}" class="nav-item">
+            <span class="material-symbols-outlined">person</span>
+            Profile
+        </a>
+        <a href="{% url 'my-orders' %}" class="nav-item">
+            <span class="material-symbols-outlined">receipt_long</span>
+            Orders
+        </a>
+    </nav>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+
+        // Sample cart data - in a real app, this would be retrieved from storage or API
+        let cart = {
+            1: { name: 'Burger', price: 4.99, quantity: 2, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-3fPSrm7RBwaXJGonkxtypaZDjj6xVv.png' },
+            2: { name: 'Fries', price: 1.49, quantity: 1, image: 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-3fPSrm7RBwaXJGonkxtypaZDjj6xVv.png' }
+        };
+
+        function updateQuantity(productId, delta) {
+            if (!cart[productId]) return;
+
+            cart[productId].quantity += delta;
+            if (cart[productId].quantity <= 0) {
+                delete cart[productId];
+            }
+
+            renderCart();
+        }
+
+        function calculateSubtotal() {
+            return Object.values(cart).reduce((sum, item) => sum + (item.quantity * item.price), 0);
+        }
+
+        function calculateTax() {
+            return calculateSubtotal() * 0.08; // 8% tax
+        }
+
+        function calculateDeliveryFee() {
+            return calculateSubtotal() > 20 ? 0 : 2.99; // Free delivery over $20
+        }
+
+        function calculateTotal() {
+            return calculateSubtotal() + calculateTax() + calculateDeliveryFee();
+        }
+
+        function renderCart() {
+            const cartContainer = document.getElementById('cartContainer');
+            const itemCount = Object.keys(cart).length;
+
+            if (itemCount === 0) {
+                cartContainer.innerHTML = `
+                    <div class="empty-cart">
+                        <span class="material-symbols-outlined empty-cart-icon">shopping_cart</span>
+                        <p class="empty-cart-text">Your cart is empty</p>
+                        <a href="products.html" class="browse-button">Browse Menu</a>
+                    </div>
+                `;
+                return;
+            }
+
+            let cartHTML = '';
+
+            // Render cart items
+            Object.entries(cart).forEach(([id, item]) => {
+                cartHTML += `
+                    <div class="cart-item">
+                        <img src="${item.image}" class="cart-item-image" alt="${item.name}">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                        </div>
+                        <div class="quantity-controls">
+                            <button class="quantity-button" onclick="updateQuantity(${id}, -1)">-</button>
+                            <span>${item.quantity}</span>
+                            <button class="quantity-button" onclick="updateQuantity(${id}, 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Render cart summary
+            const subtotal = calculateSubtotal();
+            const tax = calculateTax();
+            const deliveryFee = calculateDeliveryFee();
+            const total = calculateTotal();
+
+            cartHTML += `
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>$${subtotal.toFixed(2)}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax</span>
+                        <span>$${tax.toFixed(2)}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery Fee</span>
+                        <span>${deliveryFee === 0 ? 'Free' : '$' + deliveryFee.toFixed(2)}</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span>$${total.toFixed(2)}</span>
+                    </div>
+                </div>
+                <button class="checkout-button" onclick="checkout()">Proceed to Checkout</button>
+            `;
+
+            cartContainer.innerHTML = cartHTML;
+        }
+
+        function checkout() {
+            // In a real app, this would handle the checkout process
+            tg.MainButton.setText(`CHECKOUT • $${calculateTotal().toFixed(2)}`);
+            tg.MainButton.show();
+
+            tg.MainButton.onClick(() => {
+                tg.sendData(JSON.stringify({
+                    action: 'checkout',
+                    cart: cart,
+                    total: calculateTotal()
+                }));
+            });
+        }
+
+        renderCart();
+    </script>
+</body>
+</html>
+

@@ -228,21 +228,21 @@
     <div class="product-list" id="productList"></div>
 
     <nav class="bottom-nav">
-        <a href="#" class="nav-item active">
+        <a href="{% url 'products-list' %}" class="nav-item active">
             <span class="material-symbols-outlined">restaurant_menu</span>
             Menu
         </a>
-        <a href="#" class="nav-item">
+        <a href="{% url 'cart' %}" class="nav-item">
             <span class="material-symbols-outlined">shopping_cart</span>
             Cart
         </a>
-        <a href="#" class="nav-item">
+        <a href="{% url 'my-profile' %}" class="nav-item">
             <span class="material-symbols-outlined">person</span>
             Profile
         </a>
-        <a href="#" class="nav-item">
-            <span class="material-symbols-outlined">more_horiz</span>
-            More
+        <a href="{% url 'my-orders' %}" class="nav-item">
+            <span class="material-symbols-outlined">receipt_long</span>
+            Orders
         </a>
     </nav>
 
