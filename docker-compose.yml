@@ -1,0 +1,28 @@
+services:
+  bot:
+    build: ./bot
+    container_name: telegram_bot
+    restart: always
+    env_file:
+      - bot/.env
+    depends_on:
+      - backend
+    networks:
+      - my_network
+
+  backend:
+    build: ./backend
+    container_name: django_backend
+    restart: always
+    ports:
+      - "8002:8002"  # Tashqariga 8002-portda ishga tushirish
+    env_file:
+      - backend/.env
+    volumes:
+      - ./backend:/app
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
