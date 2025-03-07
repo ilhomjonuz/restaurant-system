@@ -12,4 +12,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Django migration va Gunicorn bilan serverni ishga tushirish
-CMD ["sh", "-c", "python manage.py migrate && gunicorn --workers 4 --bind 0.0.0.0:8002 core.wsgi:application"]
+CMD ["sh", "-c", "python manage.py migrate && python manage.py collectstatic && gunicorn --workers 4 --bind 0.0.0.0:8002 core.wsgi:application"]
