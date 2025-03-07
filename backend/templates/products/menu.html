@@ -1,0 +1,232 @@
+{% extends 'products/base.html' %}
+
+{% load static %}
+
+{% block title %}Menu - Food Ordering{% endblock title %}
+
+{% block content %}
+<div class="page active">
+    <div class="header">
+        <h1>Food Menu</h1>
+        <div class="header-icons">
+            <button class="icon-btn">
+                <i class="fas fa-search"></i>
+            </button>
+            <button class="icon-btn cart-icon">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count">1</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="categories">
+        <button class="category-btn active">All</button>
+        <button class="category-btn">Burgers</button>
+        <button class="category-btn">Pizza</button>
+        <button class="category-btn">Drinks</button>
+        <button class="category-btn">Desserts</button>
+    </div>
+
+    <div class="page-content menu-items">
+        <!-- Mahsulotlar -->
+        <div class="menu-item">
+            <img src="https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg"
+                alt="Burger" class="item-img"
+                onclick="openModal('Classic Burger', '$4.99', 'A juicy beef burger with fresh lettuce, tomatoes, and cheese.', 'https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg')">
+            <div class="item-details">
+                <h3>Classic Burger</h3>
+                <p class="price">$4.99</p>
+            </div>
+            <div class="item-controls">
+                <button class="quantity-btn decrease">
+                    <i class="fas fa-minus"></i>
+                </button>
+                <span class="quantity">1</span>
+                <button class="quantity-btn increase">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+        </div>
+        <div class="menu-item">
+            <img src="https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg"
+                alt="Burger" class="item-img"
+                onclick="openModal('Classic Burger', '$4.99', 'A juicy beef burger with fresh lettuce, tomatoes, and cheese.', 'https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg')">
+            <div class="item-details">
+                <h3>Classic Burger</h3>
+                <p class="price">$4.99</p>
+            </div>
+            <div class="item-controls">
+                <button class="add-btn" onclick="addToCart(this)">
+                    ADD
+                </button>
+            </div>
+        </div>
+        <div class="menu-item">
+            <img src="https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg"
+                alt="Burger" class="item-img"
+                onclick="openModal('Classic Burger', '$4.99', 'A juicy beef burger with fresh lettuce, tomatoes, and cheese.', 'https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg')">
+            <div class="item-details">
+                <h3>Classic Burger</h3>
+                <p class="price">$4.99</p>
+            </div>
+            <div class="item-controls">
+                <button class="add-btn" onclick="addToCart(this)">
+                    ADD
+                </button>
+            </div>
+        </div>
+        <div class="menu-item">
+            <img src="https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg"
+                alt="Burger" class="item-img"
+                onclick="openModal('Classic Burger', '$4.99', 'A juicy beef burger with fresh lettuce, tomatoes, and cheese.', 'https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg')">
+            <div class="item-details">
+                <h3>Classic Burger</h3>
+                <p class="price">$4.99</p>
+            </div>
+            <div class="item-controls">
+                <button class="add-btn" onclick="addToCart(this)">
+                    ADD
+                </button>
+            </div>
+        </div>
+        <div class="menu-item">
+            <img src="https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg"
+                alt="Burger" class="item-img"
+                onclick="openModal('Classic Burger', '$4.99', 'A juicy beef burger with fresh lettuce, tomatoes, and cheese.', 'https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg')">
+            <div class="item-details">
+                <h3>Classic Burger</h3>
+                <p class="price">$4.99</p>
+            </div>
+            <div class="item-controls">
+                <button class="add-btn" onclick="addToCart(this)">
+                    ADD
+                </button>
+            </div>
+        </div>
+        <div class="menu-item">
+            <img src="https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg"
+                alt="Burger" class="item-img"
+                onclick="openModal('Classic Burger', '$4.99', 'A juicy beef burger with fresh lettuce, tomatoes, and cheese.', 'https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg')">
+            <div class="item-details">
+                <h3>Classic Burger</h3>
+                <p class="price">$4.99</p>
+            </div>
+            <div class="item-controls">
+                <button class="add-btn" onclick="addToCart(this)">
+                    ADD
+                </button>
+            </div>
+        </div>
+        <div class="menu-item">
+            <img src="https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg"
+                alt="Burger" class="item-img"
+                onclick="openModal('Classic Burger', '$4.99', 'A juicy beef burger with fresh lettuce, tomatoes, and cheese.', 'https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg')">
+            <div class="item-details">
+                <h3>Classic Burger</h3>
+                <p class="price">$4.99</p>
+            </div>
+            <div class="item-controls">
+                <button class="add-btn" onclick="addToCart(this)">
+                    ADD
+                </button>
+            </div>
+        </div>
+        <div class="menu-item">
+            <img src="https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg"
+                alt="Burger" class="item-img"
+                onclick="openModal('Classic Burger', '$4.99', 'A juicy beef burger with fresh lettuce, tomatoes, and cheese.', 'https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg')">
+            <div class="item-details">
+                <h3>Classic Burger</h3>
+                <p class="price">$4.99</p>
+            </div>
+            <div class="item-controls">
+                <button class="add-btn" onclick="addToCart(this)">
+                    ADD
+                </button>
+            </div>
+        </div>
+        <div class="menu-item">
+            <img src="https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg"
+                alt="Burger" class="item-img"
+                onclick="openModal('Classic Burger', '$4.99', 'A juicy beef burger with fresh lettuce, tomatoes, and cheese.', 'https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg')">
+            <div class="item-details">
+                <h3>Classic Burger</h3>
+                <p class="price">$4.99</p>
+            </div>
+            <div class="item-controls">
+                <button class="add-btn" onclick="addToCart(this)">
+                    ADD
+                </button>
+            </div>
+        </div>
+        <div class="menu-item">
+            <img src="https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg"
+                alt="Burger" class="item-img"
+                onclick="openModal('Classic Burger', '$4.99', 'A juicy beef burger with fresh lettuce, tomatoes, and cheese.', 'https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg')">
+            <div class="item-details">
+                <h3>Classic Burger</h3>
+                <p class="price">$4.99</p>
+            </div>
+            <div class="item-controls">
+                <button class="add-btn" onclick="addToCart(this)">
+                    ADD
+                </button>
+            </div>
+        </div>
+        <div class="menu-item">
+            <img src="https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg"
+                alt="Burger" class="item-img"
+                onclick="openModal('Classic Burger', '$4.99', 'A juicy beef burger with fresh lettuce, tomatoes, and cheese.', 'https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg')">
+            <div class="item-details">
+                <h3>Classic Burger</h3>
+                <p class="price">$4.99</p>
+            </div>
+            <div class="item-controls">
+                <button class="add-btn" onclick="addToCart(this)">
+                    ADD
+                </button>
+            </div>
+        </div>
+        <div class="menu-item">
+            <img src="https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg"
+                alt="Burger" class="item-img"
+                onclick="openModal('Classic Burger', '$4.99', 'A juicy beef burger with fresh lettuce, tomatoes, and cheese.', 'https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg')">
+            <div class="item-details">
+                <h3>Classic Burger</h3>
+                <p class="price">$4.99</p>
+            </div>
+            <div class="item-controls">
+                <button class="add-btn" onclick="addToCart(this)">
+                    ADD
+                </button>
+            </div>
+        </div>
+
+        <div class="menu-item">
+            <img src="https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg"
+                alt="Fries" class="item-img"
+                onclick="openModal('Crispy Fries', '$1.49', 'Crispy golden fries served with ketchup.', 'https://imgmediagumlet.lbb.in/media/2025/01/6790b9b0e59da653ef5df1de_1737537968281.jpg')">
+            <div class="item-details">
+                <h3>Crispy Fries</h3>
+                <p class="price">$1.49</p>
+            </div>
+            <div class="item-controls">
+                <button class="add-btn" onclick="addToCart(this)">
+                    ADD
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal - Qalqib chiquvchi oyna -->
+<div class="modal" id="productModal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <img id="modalImg" src="" alt="Product Image" class="modal-img">
+        <h2 id="modalTitle">Product Name</h2>
+        <p id="modalPrice" class="modal-price">$0.00</p>
+        <p id="modalDescription">Product Description</p>
+    </div>
+</div>
+{% endblock %}

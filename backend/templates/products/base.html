@@ -1,0 +1,47 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Base{% endblock %}</title>
+    {% block extra_css %}{% endblock %}
+    <link rel="stylesheet" href="{% static 'products/styles.css' %}">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+
+        {% block content %}
+        {% endblock content %}
+
+        <nav class="nav-bar">
+            <a href="{% url 'menu' %}" class="nav-item {% if request.resolver_match.url_name == 'menu' %}active{% endif %}">
+                <i class="fas fa-utensils"></i>
+                <span>Menu</span>
+            </a>
+            <a href="{% url 'cart' %}" class="nav-item {% if request.resolver_match.url_name == 'cart' %}active{% endif %}">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Cart</span>
+            </a>
+            <a href="{% url 'profile' %}" class="nav-item {% if request.resolver_match.url_name == 'profile' %}active{% endif %}">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+            <a href="{% url 'orders' %}" class="nav-item {% if request.resolver_match.url_name == 'orders' %}active{% endif %}">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Orders</span>
+            </a>
+        </nav>
+
+    </div>
+
+    {% block extra_js %}{% endblock %}
+    <script src="{% static 'products/script.js' %}"></script>
+</body>
+
+</html>
